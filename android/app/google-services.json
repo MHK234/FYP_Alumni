@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "168469015024",
+    "project_id": "alumn-connect",
+    "storage_bucket": "alumn-connect.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:168469015024:android:5c49ff1c624db906365535",
+        "android_client_info": {
+          "package_name": "com.example.loginsignup"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyADcxAZPao7_nXDLcnUiRTOdYEt8CHCVBs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
