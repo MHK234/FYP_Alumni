@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 import 'package:loginsignup/views/login.dart';
 
 import '../../Helper/NavigationBar.dart';
@@ -42,9 +43,20 @@ class LoginScreen extends StatelessWidget {
                       ),
                       padding: EdgeInsets.symmetric(horizontal: 20),
                     ),
-                    onPressed: () {
+                    onPressed: () async {
                       //Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>NavigationBarScreen()));
-                      print("Facebook Login deployed");
+                      try {
+                        final UserCredential user = await signInWithFacebook();
+                        if (context.mounted) {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => NavigationBarScreen()),
+                          );
+                        }
+                      } catch (e) {
+                        print(e);
+                      }
                     },
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
@@ -163,4 +175,11 @@ Future<UserCredential?> signInWithGoogle(context) async {
     return null;
   }
   return null;
+}
+
+signInWithFacebook() async {
+  final LoginResult loginResult = await FacebookAuth.instance.login();
+  final OAuthCredential facebookAuthCredential =
+      FacebookAuthProvider.credential(loginResult.accessToken!.token);
+  return FirebaseAuth.instance.signInWithCredential(facebookAuthCredential);
 }
