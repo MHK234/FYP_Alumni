@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:loginsignup/Helper/NavigationBar.dart';
 import 'package:loginsignup/Screens/Auth/login.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class AnimatedSplashScreen extends StatefulWidget {
   const AnimatedSplashScreen({Key? key}) : super(key: key);
@@ -31,9 +33,20 @@ class _AnimatedSplashScreenState extends State<AnimatedSplashScreen>
         if (status == AnimationStatus.completed) {
           _controller.reverse();
         } else if (status == AnimationStatus.dismissed) {
-          // Navigate to the next screen after animation completes
-          Navigator.pushReplacement(
-              context, MaterialPageRoute(builder: (context) => LoginScreen()));
+          User? user = FirebaseAuth.instance.currentUser;
+          if (user != null) {
+            // User is signed in, navigate to home screen
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => NavigationBarScreen()),
+            );
+          } else if (user == null) {
+            // User is not signed in, navigate to sign-in screen
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => LoginScreen()),
+            );
+          }
         }
       });
     _controller.forward();

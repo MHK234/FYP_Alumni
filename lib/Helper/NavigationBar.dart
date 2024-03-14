@@ -93,7 +93,7 @@ class _NavigationBarScreenState extends State<NavigationBarScreen> {
                         child: Image.asset('assets/images/logo_org 1.png')),
                   ),
                   ListTile(
-                    title: Text('Profile'),
+                    title: Text('Edit Profile'),
                     onTap: () {
                       Navigator.push(
                           context,

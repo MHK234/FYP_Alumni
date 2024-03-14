@@ -31,7 +31,7 @@ class _SettingsPageState extends State<SettingsPage> {
                 [
                   _buildSettingsOption(
                     'Edit Profile',
-                        () {
+                    () {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
@@ -42,7 +42,7 @@ class _SettingsPageState extends State<SettingsPage> {
                   ),
                   _buildSettingsOption(
                     'Change Password',
-                        () {
+                    () {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
@@ -62,7 +62,7 @@ class _SettingsPageState extends State<SettingsPage> {
                 [
                   _buildSettingsOption(
                     'Show Notification',
-                        () {
+                    () {
                       // Handle notification toggle
                     },
                     isSwitch: true,
@@ -88,11 +88,11 @@ class _SettingsPageState extends State<SettingsPage> {
               Center(
                 child: ElevatedButton(
                   style: ElevatedButton.styleFrom(
-                    primary: Colors.blue,
+                    backgroundColor: Colors.blue,
                   ),
                   onPressed: () async {
                     SharedPreferences prefs =
-                    await SharedPreferences.getInstance();
+                        await SharedPreferences.getInstance();
                     prefs.setBool('loggedIn', false);
                     Navigator.pushReplacement(
                       context,
@@ -141,21 +141,21 @@ class _SettingsPageState extends State<SettingsPage> {
     return ListTile(
       title: isSwitch
           ? Row(
-        children: [
-          Text(label),
-          Spacer(),
-          Switch(
-            value: _notificationsEnabled,
-            onChanged: (value) {
-              setState(() {
-                _notificationsEnabled = value;
-              });
-              // Handle toggle notifications logic
-            },
-            activeColor: Colors.blue,
-          ),
-        ],
-      )
+              children: [
+                Text(label),
+                Spacer(),
+                Switch(
+                  value: _notificationsEnabled,
+                  onChanged: (value) {
+                    setState(() {
+                      _notificationsEnabled = value;
+                    });
+                    // Handle toggle notifications logic
+                  },
+                  activeColor: Colors.blue,
+                ),
+              ],
+            )
           : Text(label),
       onTap: () async {
         if (label == 'Logout') {

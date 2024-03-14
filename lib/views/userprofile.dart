@@ -10,9 +10,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class UserProfilePage extends StatefulWidget {
-  UserProfilePage({
-    super.key
-});
+  UserProfilePage({super.key});
   @override
   _UserProfilePageState createState() => _UserProfilePageState();
 }
@@ -51,14 +49,13 @@ class _UserProfilePageState extends State<UserProfilePage> {
     }
   }
 
-
   Future<void> _submitUserProfile() async {
     // Optionally, you can get the download URL of the uploaded image
     String imageUrl = '';
     if (_image != null) {
       String imageName = "profile_image.jpg";
       Reference storageReference =
-      FirebaseStorage.instance.ref().child('${uid}/$imageName');
+          FirebaseStorage.instance.ref().child('${uid}/$imageName');
       await storageReference.putFile(_image!);
       imageUrl = await storageReference.getDownloadURL();
       print('Image URL: $imageUrl');
@@ -76,7 +73,11 @@ class _UserProfilePageState extends State<UserProfilePage> {
       'profileUrl': imageUrl,
     });
 
-    Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => HomePage(),));
+    Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(
+          builder: (context) => HomePage(),
+        ));
     // You can now use the imageUrl as needed
   }
 
@@ -88,116 +89,113 @@ class _UserProfilePageState extends State<UserProfilePage> {
       ),
       body: Padding(
         padding: const EdgeInsets.fromLTRB(16, 0, 10, 0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            // Profile Picture Widget
-            Align(
-              alignment: Alignment.center,
-              child: GestureDetector(
-                onTap: _pickImage,
-                child: Container(
-                  width: 60,
-                  height: 60,
-                  // ignore: prefer_const_constructors
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    color: Colors.grey, // Placeholder color
-                  ),
-                  child: _image != null
-                      ? ClipOval(
-                          child: Image.file(
-                            _image!,
-                            width: 60,
-                            height: 60,
-                            fit: BoxFit.cover,
-                          ),
-                        )
-                      : const Icon(
-                          Icons.camera_alt,
-                          color: Colors.white,
-                          size: 60,
+        child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+          // Profile Picture Widget
+          Align(
+            alignment: Alignment.center,
+            child: GestureDetector(
+              onTap: _pickImage,
+              child: Container(
+                width: 60,
+                height: 60,
+                // ignore: prefer_const_constructors
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  color: Colors.grey, // Placeholder color
+                ),
+                child: _image != null
+                    ? ClipOval(
+                        child: Image.file(
+                          _image!,
+                          width: 60,
+                          height: 60,
+                          fit: BoxFit.cover,
                         ),
+                      )
+                    : const Icon(
+                        Icons.camera_alt,
+                        color: Colors.white,
+                        size: 60,
+                      ),
+              ),
+            ),
+          ),
+
+          TextField(
+            textCapitalization: TextCapitalization.words,
+            controller: fatherNameController,
+            decoration: const InputDecoration(labelText: "Father's Name"),
+          ),
+
+          TextField(
+            controller: cnicController,
+            maxLength: 16,
+            keyboardType: TextInputType.number,
+            decoration: const InputDecoration(labelText: 'CNIC'),
+          ),
+          TextField(
+            textCapitalization: TextCapitalization.words,
+            controller: degreeController,
+            decoration: const InputDecoration(labelText: 'Degree'),
+          ),
+          TextField(
+            textCapitalization: TextCapitalization.words,
+            controller: batchController,
+            decoration: const InputDecoration(labelText: 'Batch'),
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              SizedBox(
+                width: 140,
+                child: TextField(
+                  maxLength: 4,
+                  keyboardType: TextInputType.number,
+                  controller: startYearController,
+                  decoration: const InputDecoration(labelText: 'Starting Year'),
+                ),
+              ),
+              SizedBox(
+                width: 140,
+                child: TextField(
+                  maxLength: 4,
+                  keyboardType: TextInputType.number,
+                  controller: endYearController,
+                  decoration: const InputDecoration(labelText: 'Ending Year'),
+                ),
+              ),
+            ],
+          ),
+          TextField(
+            textCapitalization: TextCapitalization.words,
+            controller: departmentController,
+            decoration: const InputDecoration(labelText: 'Department Name'),
+          ),
+          const SizedBox(height: 5),
+          //submit button
+          const SizedBox(height: 5),
+          Align(
+            alignment: Alignment.center,
+            child: ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.blue, // Background color of the button
+              ),
+              onPressed: _submitUserProfile,
+              child: const Text(
+                'Submit',
+                style: TextStyle(
+                  color: Colors.white, // Text color of the button
                 ),
               ),
             ),
-
-            TextField(
-              textCapitalization: TextCapitalization.words,
-              controller: fatherNameController,
-              decoration: const InputDecoration(labelText: "Father's Name"),
-            ),
-
-            TextField(
-              controller: cnicController,
-              maxLength: 16,
-              keyboardType: TextInputType.number,
-              decoration: const InputDecoration(labelText: 'CNIC'),
-            ),
-            TextField(
-              textCapitalization: TextCapitalization.words,
-              controller: degreeController,
-              decoration: const InputDecoration(labelText: 'Degree'),
-            ),
-            TextField(
-              textCapitalization: TextCapitalization.words,
-              controller: batchController,
-              decoration: const InputDecoration(labelText: 'Batch'),
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                SizedBox(
-                  width: 140,
-                  child: TextField(
-                    maxLength: 4,
-                    keyboardType: TextInputType.number,
-                    controller: startYearController,
-                    decoration: const InputDecoration(labelText: 'Starting Year'),
-                  ),
-                ),
-                SizedBox(
-                  width: 140,
-                  child: TextField(
-                    maxLength: 4,
-                    keyboardType: TextInputType.number,
-                    controller: endYearController,
-                    decoration: const InputDecoration(labelText: 'Ending Year'),
-                  ),
-                ),
-              ],
-            ),
-            TextField(
-              textCapitalization: TextCapitalization.words,
-              controller: departmentController,
-              decoration: const InputDecoration(labelText: 'Department Name'),
-            ),
-            const SizedBox(height: 5),
-            //submit button
-            const SizedBox(height: 5),
-            Align(
-              alignment: Alignment.center,
-              child: ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                  primary: Colors.blue, // Background color of the button
-                ),
-                onPressed: _submitUserProfile,
-                child:const Text('Submit',
-                  style: TextStyle(
-                    color: Colors.white, // Text color of the button
-                  ),),
-
-              ),
-            ),
-          ]
-        ),
+          ),
+        ]),
       ),
     );
   }
 
-  void loaduid() async{
-
-      SharedPreferences prefs = await SharedPreferences.getInstance();
-      uid = prefs.getString('userId') ?? "";
+  void loaduid() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    uid = prefs.getString('userId') ?? "";
   }
 }

@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:loginsignup/Screens/Auth/login.dart';
 import '../../../../setting.dart';
 import '../../../../job.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 import 'Funding.dart';
 import 'User_Profile.dart';
@@ -52,7 +54,7 @@ class Profile_Setting extends StatelessWidget {
                   MaterialPageRoute(builder: (context) => SettingsPage()));
             }),
             buildListTile('Logout', Icons.exit_to_app, () {
-              // Implement logout functionality
+              _signOut(context);
             }),
           ],
         ),
@@ -71,5 +73,21 @@ class Profile_Setting extends StatelessWidget {
       trailing: Icon(Icons.arrow_forward),
       onTap: onTap,
     );
+  }
+}
+
+void _signOut(BuildContext context) async {
+  try {
+    await FirebaseAuth.instance.signOut();
+    // Navigate back to the sign-in screen or any other desired screen
+    // In this example, I'm just popping the screen off the navigation stack
+
+    Navigator.pop(context);
+    Navigator.push(
+        context, MaterialPageRoute(builder: (context) => LoginScreen()));
+  } catch (e) {
+    // Handle sign-out errors
+    print('Error signing out: $e');
+    // Optionally show an error dialog or message
   }
 }

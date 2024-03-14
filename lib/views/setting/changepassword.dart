@@ -5,9 +5,11 @@ import '../../widgets/password/password.dart';
 
 class ChangePasswordPage extends StatelessWidget {
   final double radius = 20.0;
-  final TextEditingController currentPasswordController = TextEditingController();
+  final TextEditingController currentPasswordController =
+      TextEditingController();
   final TextEditingController newPasswordController = TextEditingController();
-  final TextEditingController confirmNewPasswordController = TextEditingController();
+  final TextEditingController confirmNewPasswordController =
+      TextEditingController();
 
   Future<void> _changePassword() async {
     try {
@@ -109,16 +111,19 @@ class ChangePasswordPage extends StatelessWidget {
                     ElevatedButton(
                       onPressed: () {
                         // Check if the new password and confirm password match
-                        if (newPasswordController.text == confirmNewPasswordController.text) {
+                        if (newPasswordController.text ==
+                            confirmNewPasswordController.text) {
                           // Call the change password method
                           _changePassword();
                         } else {
-                          print('New password and confirm password do not match');
+                          print(
+                              'New password and confirm password do not match');
                         }
                       },
                       style: ElevatedButton.styleFrom(
-                        primary: Colors.blue, // Background color of the button
-                        onPrimary: Colors.white, // Text color of the button
+                        foregroundColor: Colors.white,
+                        backgroundColor:
+                            Colors.blue, // Text color of the button
                       ),
                       child: const Text('Change Password'),
                     ),
