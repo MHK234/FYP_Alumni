@@ -1,7 +1,5 @@
-
 import 'package:firebase_core/firebase_core.dart';
 import 'package:loginsignup/Helper/NavigationBar.dart';
-import 'package:loginsignup/home.dart';
 import 'package:loginsignup/views/signup.dart';
 import 'package:loginsignup/views/userprofile.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';

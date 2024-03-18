@@ -3,6 +3,7 @@ import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_advanced_drawer/flutter_advanced_drawer.dart';
 import 'package:loginsignup/Screens/Home/Dashboard/Chat/Chat2.dart';
+import 'package:loginsignup/Screens/Home/Dashboard/Chat/Users.dart';
 import 'package:loginsignup/setting.dart';
 import '../Screens/Home/Dashboard/Feed/NewsFeed.dart';
 import '../Screens/Home/Dashboard/Profile/ProfileSetting.dart';
@@ -105,7 +106,6 @@ class _NavigationBarScreenState extends State<NavigationBarScreen> {
                   ListTile(
                     title: Text('Events'),
                     onTap: () {
-                      // Navigator.push(context, MaterialPageRoute(builder: (context)=>Help_SupportScreen()));
                       _advancedDrawerController.hideDrawer();
                     },
                   ),
@@ -122,8 +122,9 @@ class _NavigationBarScreenState extends State<NavigationBarScreen> {
                   ListTile(
                     title: Text('Mentorship'),
                     onTap: () {
-                      // Navigator.push(context, MaterialPageRoute(builder: (context)=>AboutUs()));
-                      _advancedDrawerController.hideDrawer();
+                      Navigator.push(context,
+                          MaterialPageRoute(builder: (context) => Users()));
+                      //_advancedDrawerController.hideDrawer();
                     },
                   ),
                   ListTile(
