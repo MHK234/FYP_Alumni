@@ -57,6 +57,6 @@ class DefaultFirebaseOptions {
     appId: '1:168469015024:android:5c49ff1c624db906365535',
     messagingSenderId: '168469015024',
     projectId: 'alumn-connect',
-    storageBucket: 'alumni-connect.appspot.com',
+    storageBucket: 'alumn-connect.appspot.com',
   );
 }

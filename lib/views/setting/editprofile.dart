@@ -1,7 +1,8 @@
 import 'dart:io';
-import 'package:flutter/widgets.dart';
+import 'dart:math';
 import 'package:loginsignup/Helper/NavigationBar.dart';
-import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
+import 'package:loginsignup/home.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -31,7 +32,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
 
   Widget buildProfilePicture() {
     return CircleAvatar(
-      radius: 35,
+      radius: 55,
       backgroundImage: NetworkImage(profilepic),
     );
   }
@@ -79,73 +80,54 @@ class _EditProfilePageState extends State<EditProfilePage> {
 
   Future<void> _pickImage() async {
     final picker = ImagePicker();
-    bool _isUploading = false;
     final pickedFile = await picker.pickImage(source: ImageSource.gallery);
+
     if (pickedFile != null) {
       setState(() {
-        print("Path of image is: " + pickedFile.path);
         _image = File(pickedFile.path);
       });
-      String imageName = "profile_image.jpg";
 
-      //Reference storageReference =
-      //  FirebaseStorage.instance.ref().child('${uid}/$imageName');
-      // await storageReference.putFile(_image!);
-    } else {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text('File not Uploaded'),
-          duration: Duration(seconds: 2),
-        ),
-      );
+      String imageName = "profile_image.jpg";
+      Reference storageReference =
+          FirebaseStorage.instance.ref().child('${uid}/$imageName');
+      await storageReference.putFile(_image!);
     }
   }
 
   Future<void> _submitUserProfile() async {
-    try {
-      // Save user profile data to Firestore
-      if (kDebugMode) {
-        print('Submit Clicked');
-      }
+    // Save user profile data to Firestore
+    if (kDebugMode) {
+      print('Submit Clicked');
+    }
 
-      // Upload image if it exists
-      String imageUrl = '';
-      if (_image != null) {
-        /*String imageName = "profile_image.jpg";
-      firebase_storage.Reference storageReference = firebase_storage
-          .FirebaseStorage.instance
-          .ref()
-          .child('${uid}/$imageName');
+    // Upload image if it exists
+    String imageUrl = '';
+    if (_image != null) {
+      String imageName = "profile_image.jpg";
+      Reference storageReference =
+          FirebaseStorage.instance.ref('profiles').child('${uid}/$imageName');
       await storageReference.putFile(_image!);
       imageUrl = await storageReference.getDownloadURL();
-      print('Image URL: $imageUrl');*/
-      }
-
-      // Save user profile data to Firestore, including the image URL
-      await FirebaseFirestore.instance.collection('userdata').doc(uid).set({
-        'fatherName': fatherNameController.text,
-        'cnic': cnicController.text,
-        'degree': degreeController.text,
-        'batch': batchController.text,
-        'startYear': startYearController.text,
-        'endYear': endYearController.text,
-        'department': departmentController.text,
-        'profileUrl': imageUrl,
-      });
-      Navigator.of(context).pushReplacement(
-        MaterialPageRoute(
-          builder: (context) =>
-              NavigationBarScreen(), // Replace 'HomePage' with the actual class for your homepage
-        ),
-      );
-    } catch (e) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text(e.toString()),
-          duration: Duration(seconds: 2),
-        ),
-      );
+      print('Image URL: $imageUrl');
     }
+
+    // Save user profile data to Firestore, including the image URL
+    await FirebaseFirestore.instance.collection('userdata').doc(uid).set({
+      'fatherName': fatherNameController.text,
+      'cnic': cnicController.text,
+      'degree': degreeController.text,
+      'batch': batchController.text,
+      'startYear': startYearController.text,
+      'endYear': endYearController.text,
+      'department': departmentController.text,
+      'profileUrl': imageUrl,
+    });
+    Navigator.of(context).pushReplacement(
+      MaterialPageRoute(
+        builder: (context) =>
+            NavigationBarScreen(), // Replace 'HomePage' with the actual class for your homepage
+      ),
+    );
   }
 
   @override

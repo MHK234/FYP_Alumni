@@ -1,4 +1,3 @@
-
 import 'package:loginsignup/views/login.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -200,7 +199,6 @@ class _SignUpPageState extends State<SignUpPage> {
                               'lastName': lastNameController.text,
                               'email': emailController.text,
                               'password': passwordController.text,
-                              'cpassword': cpasswordController.text,
                             });
 
                             Navigator.push(

@@ -2,7 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 import 'package:loginsignup/views/login.dart';
-
+import 'package:shared_preferences/shared_preferences.dart';
 import '../../Helper/NavigationBar.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:permission_handler/permission_handler.dart';
@@ -161,6 +161,22 @@ Future<UserCredential?> signInWithGoogle(context) async {
 
       final UserCredential authResult =
           await _auth.signInWithCredential(credential);
+
+      final User? user = authResult.user;
+      //(user?.getIdToken());
+      String uid = user!.uid;
+      print("User Id is " + uid);
+      firestore.collection('users').doc(uid).set({
+        'firstName': user.displayName,
+        'PhoneNumber': user.phoneNumber,
+        'email': user.email,
+        'isEmailVerified': user.emailVerified
+      });
+      //print(authResult);
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      prefs.setBool('loggedIn', true);
+      prefs.setString('userId', uid);
+
       PermissionStatus storage = await Permission.photos.request();
       if (storage == PermissionStatus.denied) {
         ScaffoldMessenger.of(context).showSnackBar(
@@ -170,10 +186,7 @@ Future<UserCredential?> signInWithGoogle(context) async {
         context,
         MaterialPageRoute(builder: (context) => NavigationBarScreen()),
       );
-      final User? user = authResult.user;
 
-      // You can return the user credential if needed
-      print(authResult);
       return authResult;
     }
   } catch (error) {
